@@ -1,0 +1,23 @@
+pipeline {
+    agent none
+    stages {
+        stage ('vcs') {
+            agent { label 'git'}
+            steps {
+                sh 'git --version'
+            }
+        }
+        stage ('build') {
+            agent { label 'maven || maven-jdk8' }
+            steps {
+                sh 'mvn -v'
+            }
+        }
+        stage ('deploy') {
+            agent { label 'k8s && devloper'}
+            steps {
+                sh 'kubectl --version'
+            }
+        }
+    }
+}
